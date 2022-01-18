@@ -30,6 +30,8 @@
 		FE8B6FDF2796E0C400E9F8F2 /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8B6FDE2796E0C400E9F8F2 /* SearchPresenter.swift */; };
 		FE8B6FE52796E3CA00E9F8F2 /* AppDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8B6FE42796E3CA00E9F8F2 /* AppDetailHeaderView.swift */; };
 		FE8B6FE72796E45E00E9F8F2 /* AppDetailHeaderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8B6FE62796E45E00E9F8F2 /* AppDetailHeaderVC.swift */; };
+		FE8B6FEC2796E61F00E9F8F2 /* AppDetailDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8B6FEB2796E61F00E9F8F2 /* AppDetailDescriptionView.swift */; };
+		FE8B6FEE2796E6C800E9F8F2 /* AppDescriptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8B6FED2796E6C800E9F8F2 /* AppDescriptionVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +63,8 @@
 		FE8B6FDE2796E0C400E9F8F2 /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
 		FE8B6FE42796E3CA00E9F8F2 /* AppDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailHeaderView.swift; sourceTree = "<group>"; };
 		FE8B6FE62796E45E00E9F8F2 /* AppDetailHeaderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailHeaderVC.swift; sourceTree = "<group>"; };
+		FE8B6FEB2796E61F00E9F8F2 /* AppDetailDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailDescriptionView.swift; sourceTree = "<group>"; };
+		FE8B6FED2796E6C800E9F8F2 /* AppDescriptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDescriptionVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,7 +130,6 @@
 				FE8B6FDB2796E07800E9F8F2 /* Builder */,
 				E0E1D2A62034A36C0011E01A /* Search */,
 				E0E1D2A72034A3780011E01A /* AppDetail */,
-				FE8B6FE12796E38200E9F8F2 /* AppDetailHeader */,
 			);
 			path = Flows;
 			sourceTree = "<group>";
@@ -144,8 +147,9 @@
 		E0E1D2A72034A3780011E01A /* AppDetail */ = {
 			isa = PBXGroup;
 			children = (
-				F8114FC222A3E74E00102830 /* View */,
-				F8114FC322A3E75300102830 /* Controller */,
+				FE8B6FE12796E38200E9F8F2 /* AppDetailHeader */,
+				FE8B6FE82796E5E000E9F8F2 /* AppDetailDescription */,
+				FE8B6FEF2796EBED00E9F8F2 /* AppDetail */,
 			);
 			path = AppDetail;
 			sourceTree = "<group>";
@@ -332,6 +336,40 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		FE8B6FE82796E5E000E9F8F2 /* AppDetailDescription */ = {
+			isa = PBXGroup;
+			children = (
+				FE8B6FE92796E5F200E9F8F2 /* View */,
+				FE8B6FEA2796E5FA00E9F8F2 /* Controller */,
+			);
+			path = AppDetailDescription;
+			sourceTree = "<group>";
+		};
+		FE8B6FE92796E5F200E9F8F2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FE8B6FEB2796E61F00E9F8F2 /* AppDetailDescriptionView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		FE8B6FEA2796E5FA00E9F8F2 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				FE8B6FED2796E6C800E9F8F2 /* AppDescriptionVC.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		FE8B6FEF2796EBED00E9F8F2 /* AppDetail */ = {
+			isa = PBXGroup;
+			children = (
+				F8114FC222A3E74E00102830 /* View */,
+				F8114FC322A3E75300102830 /* Controller */,
+			);
+			path = AppDetail;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -463,8 +501,10 @@
 			files = (
 				E0E1D399203AE62E0011E01A /* ITunesApp.swift in Sources */,
 				FE8B6FDF2796E0C400E9F8F2 /* SearchPresenter.swift in Sources */,
+				FE8B6FEE2796E6C800E9F8F2 /* AppDescriptionVC.swift in Sources */,
 				F8A97B352249898E00FB2C0E /* AppCell.swift in Sources */,
 				F8114FC522A3E77500102830 /* AppDetailView.swift in Sources */,
+				FE8B6FEC2796E61F00E9F8F2 /* AppDetailDescriptionView.swift in Sources */,
 				E0E1D387203AE45F0011E01A /* WebRequest.swift in Sources */,
 				F8A1E03C2248382F00FE6448 /* Monads.swift in Sources */,
 				E0E1D3D4203C4AA50011E01A /* UIColor+Extensions.swift in Sources */,
