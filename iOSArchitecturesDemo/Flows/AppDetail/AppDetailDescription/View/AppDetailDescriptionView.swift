@@ -8,83 +8,79 @@
 
 import UIKit
 
-final class AppDetailDescriptionView: UIView {
+class AppDetailDescriptionView: UIView {
+
+    // MARK: - Subviews
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.configureUI()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        self.configureUI()
-    }
-    
-    private(set) lazy var captionLabel: UILabel = {
+    private(set) lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Новое"
-        label.font = UIFont.boldSystemFont(ofSize: 25.0)
-        label.numberOfLines = 2
+        label.textColor = .white
+        label.font = UIFont.boldSystemFont(ofSize: 20.0)
+        label.numberOfLines = 1
+        label.text = "What's new"
         return label
     }()
     
     private(set) lazy var versionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Версия 1.0.0"
-        label.font = UIFont.boldSystemFont(ofSize: 16.0)
-        label.textColor = .gray
-        label.numberOfLines = 2
+        label.textColor = .lightGray
+        label.font = UIFont.systemFont(ofSize: 14.0)
+        return label
+    }()
+    
+    private(set) lazy var releaseDateLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .lightGray
+        label.font = UIFont.systemFont(ofSize: 14.0)
         return label
     }()
     
     private(set) lazy var releaseNotesLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Описание: ... "
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = .black
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 14.0)
+        label.numberOfLines = 25
         return label
     }()
-    
-    private func configureUI() {
-        self.backgroundColor = .white
-        self.addSubview(self.captionLabel)
-        self.addSubview(self.versionLabel)
-        self.addSubview(self.releaseNotesLabel)
-        self.setupConstraints()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.setupLayout()
     }
     
-    private func setupConstraints(){
-        
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.setupLayout()
+    }
+    
+    // MARK: - UI
+    
+    private func setupLayout() {
+        self.addSubview(self.titleLabel)
+        self.addSubview(self.versionLabel)
+        self.addSubview(self.releaseDateLabel)
+        self.addSubview(self.releaseNotesLabel)
+
         NSLayoutConstraint.activate([
+            self.titleLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 12.0),
+            self.titleLabel.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor, constant: 16.0),
+            self.titleLabel.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor, constant: -16.0),
             
-            self.captionLabel.leadingAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.leadingAnchor,
-                constant: 8),
-            self.captionLabel.trailingAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.trailingAnchor,
-                constant: 8),
-            self.captionLabel.topAnchor.constraint(
-                equalTo: self.topAnchor,
-                constant: 10),
+            self.versionLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 12.0),
+            self.versionLabel.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor, constant: 16.0),
+            self.versionLabel.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor, constant: -16.0),
             
-            self.versionLabel.leadingAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.leadingAnchor,
-                constant: 8),
-            self.versionLabel.bottomAnchor.constraint(
-                equalTo: self.captionLabel.bottomAnchor,
-                constant: 20),
-            
-            self.releaseNotesLabel.bottomAnchor.constraint(
-                equalTo: self.versionLabel.bottomAnchor,
-                constant: 30),
-            self.releaseNotesLabel.trailingAnchor.constraint(
-                equalTo: self.captionLabel.trailingAnchor),
-            self.releaseNotesLabel.leadingAnchor.constraint(
-                equalTo: self.captionLabel.leadingAnchor),
-            
+            self.releaseDateLabel.topAnchor.constraint(equalTo: self.versionLabel.bottomAnchor, constant: 3.0),
+            self.releaseDateLabel.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor, constant: 16.0),
+            self.releaseDateLabel.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor, constant: -16.0),
+
+            self.releaseNotesLabel.topAnchor.constraint(equalTo: self.releaseDateLabel.bottomAnchor, constant: 12.0),
+            self.releaseNotesLabel.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor, constant: 16.0),
+            self.releaseNotesLabel.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor, constant: -16.0)
         ])
     }
 }

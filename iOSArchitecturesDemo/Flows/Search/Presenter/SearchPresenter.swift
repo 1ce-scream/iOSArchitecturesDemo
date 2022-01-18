@@ -10,8 +10,10 @@ import UIKit
 
 protocol SearchViewInput: class {
     
-    var searchResults: [ITunesApp] { get set }
-    
+    var searchAppResults: [ITunesApp] { get set }
+
+    var searchSongResults: [ITunesSong] { get set }
+
     func showError(error: Error)
     
     func showNoResults()
@@ -23,52 +25,83 @@ protocol SearchViewInput: class {
 
 protocol SearchViewOutput: class {
     
-    func viewDidSearch(with query: String)
-    
+    func viewDidSearchApp(with query: String)
+
+    func viewDidSearchSong(with query: String)
+
     func viewDidSelectApp(_ app: ITunesApp)
+
+    func viewDidSelectSong(_ song: ITunesSong)
 }
 
-final class SearchPresenter {
-    
-    weak var viewInput: (UIViewController & SearchViewInput)?
-    
+class SearchPresenter {
     private let searchService = ITunesSearchService()
-    
+    var viewInput: (UIViewController & SearchViewInput)?
+
     private func requestApps(with query: String) {
-        self.searchService.getApps(forQuery: query) { [weak self] result in
-            guard let self = self else { return }
-            self.viewInput?.throbber(show: false)
-            result
-                .withValue { apps in
-                    guard !apps.isEmpty else {
-                        self.viewInput?.showNoResults()
-                        return
-                    }
-                    self.viewInput?.hideNoResults()
-                    self.viewInput?.searchResults = apps
+        self.searchService.getApps(forQuery: query) { [weak self]  results in
+        guard let self = self else { return }
+        self.viewInput?.throbber(show: false)
+        results
+            .withValue { apps in
+                guard !apps.isEmpty else {
+                    self.viewInput?.showNoResults()
+                    return
                 }
-                .withError {
-                    self.viewInput?.showError(error: $0)
-                }
+                self.viewInput?.hideNoResults()
+                self.viewInput?.searchAppResults = apps
+            }
+            .withError {
+                self.viewInput?.showError(error: $0)
+            }
         }
     }
-    
+
+    private func requestSongs(with query: String) {
+        self.searchService.getSongs(forQuery: query) { [weak self]  results in
+        guard let self = self else { return }
+        self.viewInput?.throbber(show: false)
+        results
+            .withValue { songs in
+                guard !songs.isEmpty else {
+                    self.viewInput?.showNoResults()
+                    return
+                }
+                self.viewInput?.hideNoResults()
+                print("SearchPresenter: requestSongs result: \(songs.count)")
+                self.viewInput?.searchSongResults = songs
+            }
+            .withError {
+                self.viewInput?.showError(error: $0)
+            }
+        }
+    }
+
     private func openAppDetails(with app: ITunesApp) {
-        let appDetailViewController = AppDetailViewController(app: app)
-        self.viewInput?.navigationController?
-            .pushViewController(appDetailViewController, animated: true)
+        let appDetaillViewController = AppDetailViewController(app: app)
+        self.viewInput?.navigationController?.pushViewController(appDetaillViewController, animated: true)
+    }
+
+    private func openSongDetails(with song: ITunesSong) {
+        let songDetaillViewController = SongDetailViewController(song: song)
+        self.viewInput?.navigationController?.pushViewController(songDetaillViewController, animated: true)
     }
 }
 
-// MARK: - SearchViewOutput
 extension SearchPresenter: SearchViewOutput {
-    
-    func viewDidSearch(with query: String) {
-        self.viewInput?.throbber(show: true)
+    func viewDidSearchApp(with query: String) {
         self.requestApps(with: query)
     }
-    
+
+    func viewDidSearchSong(with query: String) {
+        self.requestSongs(with: query)
+    }
+
     func viewDidSelectApp(_ app: ITunesApp) {
         self.openAppDetails(with: app)
+    }
+
+    func viewDidSelectSong(_ song: ITunesSong) {
+        self.openSongDetails(with: song)
     }
 }

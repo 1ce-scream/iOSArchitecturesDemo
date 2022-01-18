@@ -8,13 +8,17 @@
 
 import UIKit
 
-final class AppDescriptionVC: UIViewController {
+class AppDetailDescriptionVC: UIViewController {
+    
+    // MARK: - Properties
     
     private let app: ITunesApp
     
     private var appDetailDescriptionView: AppDetailDescriptionView {
         return self.view as! AppDetailDescriptionView
     }
+    
+    // MARK: - Init
     
     init(app: ITunesApp) {
         self.app = app
@@ -25,6 +29,8 @@ final class AppDescriptionVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Lifecycle
+    
     override func loadView() {
         super.loadView()
         self.view = AppDetailDescriptionView()
@@ -33,11 +39,15 @@ final class AppDescriptionVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.fillData()
-        
     }
     
+    // MARK: - Private
+    
     private func fillData() {
-        self.appDetailDescriptionView.versionLabel.text = "Version \(app.version)"
+        self.appDetailDescriptionView.titleLabel.text = "What's New"
+        self.appDetailDescriptionView.versionLabel.text = "Version " + (app.version ?? "")
+        self.appDetailDescriptionView.releaseDateLabel.text = "Release date " + (app.releaseDate ?? "")
         self.appDetailDescriptionView.releaseNotesLabel.text = app.releaseNotes
     }
+    
 }

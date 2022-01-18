@@ -22,9 +22,10 @@ public struct ITunesApp: Codable {
     public let size: Bytes?
     public let iconUrl: String?
     public let screenshotUrls: [String]
+    
+    public let version: String?
     public let releaseNotes: String?
-    public let currentVersionReleaseDate: String?
-    public let version: String
+    public let releaseDate: String?
     
     // MARK: - Codable
     
@@ -39,9 +40,11 @@ public struct ITunesApp: Codable {
         case size = "fileSizeBytes"
         case iconUrl = "artworkUrl512"
         case screenshotUrls = "screenshotUrls"
-        case releaseNotes = "releaseNotes"
-        case currentVersionReleaseDate = "currentVersionReleaseDate"
+        
         case version = "version"
+        case releaseNotes = "releaseNotes"
+        case releaseDate = "currentVersionReleaseDate"
+        
     }
     
     public init(from decoder: Decoder) throws {
@@ -56,9 +59,19 @@ public struct ITunesApp: Codable {
         self.size = (try? container.decode(String.self, forKey: .size)) >>- { Bytes($0) }
         self.iconUrl = try? container.decode(String.self, forKey: .iconUrl)
         self.screenshotUrls = (try? container.decode([String].self, forKey: .screenshotUrls)) ?? []
+        
+        self.version = try? container.decode(String.self, forKey: .version)
         self.releaseNotes = try? container.decode(String.self, forKey: .releaseNotes)
-        self.currentVersionReleaseDate = try? container.decode(String.self, forKey: .currentVersionReleaseDate)
-        self.version = try container.decode(String.self, forKey: .version)
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        if let dateString = try? container.decode(String.self, forKey: .releaseDate),
+           let date = formatter.date(from: dateString) {
+            formatter.dateFormat = "dd.MM.yyy"
+            self.releaseDate = formatter.string(from: date)
+        } else {
+            self.releaseDate = nil
+        }
     }
     
     // MARK: - Init
@@ -73,10 +86,9 @@ public struct ITunesApp: Codable {
                   size: Bytes?,
                   iconUrl: String?,
                   screenshotUrls: [String],
-                  releaseNotes: String?,
-                  currentVersionReleaseDate: String?,
-                  version: String
-    ) {
+                  version: String?,
+                  releaseDate: String?,
+                  releaseNotes: String?) {
         self.appName = appName
         self.appUrl = appUrl
         self.company = company
@@ -87,8 +99,10 @@ public struct ITunesApp: Codable {
         self.size = size
         self.iconUrl = iconUrl
         self.screenshotUrls = screenshotUrls
-        self.releaseNotes = releaseNotes
-        self.currentVersionReleaseDate = currentVersionReleaseDate
+        
         self.version = version
+        self.releaseDate = releaseDate
+        self.releaseNotes = releaseNotes
+        
     }
 }

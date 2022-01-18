@@ -1,5 +1,5 @@
 //
-//  AppDetailHeaderVC.swift
+//  SongDetailHeaderViewController.swift
 //  iOSArchitecturesDemo
 //
 //  Created by Vitaliy Talalay on 18.01.2022.
@@ -8,22 +8,22 @@
 
 import UIKit
 
-final class AppDetailHeaderVC: UIViewController {
-
+final class SongDetailHeaderViewController: UIViewController {
+    
     // MARK: - Properties
     
-    private let app: ITunesApp
+    private let song: ITunesSong
     
     private let imageDownloader = ImageDownloader()
-
-    private var appDetailHeaderView: AppDetailHeaderView {
-        return self.view as! AppDetailHeaderView
+    
+    private var songDetailHeaderView: SongDetailHeaderView {
+        return self.view as! SongDetailHeaderView
     }
     
     // MARK: - Init
     
-    init(app: ITunesApp) {
-        self.app = app
+    init(song: ITunesSong) {
+        self.song = song
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -35,7 +35,7 @@ final class AppDetailHeaderVC: UIViewController {
     
     override func loadView() {
         super.loadView()
-        self.view = AppDetailHeaderView()
+        self.view = SongDetailHeaderView()
     }
     
     override func viewDidLoad() {
@@ -47,16 +47,18 @@ final class AppDetailHeaderVC: UIViewController {
     
     private func fillData() {
         self.downloadImage()
-        self.appDetailHeaderView.titleLabel.text = app.appName
-        self.appDetailHeaderView.subtitleLabel.text = app.company
-        self.appDetailHeaderView.ratingLabel.text = app.averageRating >>- { "\($0)" }
+        self.songDetailHeaderView.trackNameLabel.text = song.trackName
+        self.songDetailHeaderView.artistNameLabel.text = song.artistName
+        self.songDetailHeaderView.collectionNameLabel.text = song.collectionName
+        self.songDetailHeaderView.genreLabel.text = song.primaryGenreName
+        self.songDetailHeaderView.releaseDateLabel.text = " • " + song.releaseDate
     }
     
     private func downloadImage() {
-        guard let url = self.app.iconUrl else { return }
+        guard let url = self.song.artwork else { return }
         let imageDownloaderProxy = ImageDownloaderProxy(imageDownloader: imageDownloader)
         imageDownloaderProxy.getImage(fromUrl: url) { [weak self] (image, _) in
-            self?.appDetailHeaderView.imageView.image = image
+            self?.songDetailHeaderView.imageView.image = image
         }
     }
 }
